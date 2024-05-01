@@ -811,6 +811,151 @@ int main(int argc, char *argv[])
 				current_coord_vec.clear();
 			}
 
+         if (delete_file)
+         {
+            clear_marks = true;
+            delete_file = false;
+            if(trackbar_value + 1 == jpg_filenames.size())
+            {
+               trackbar_value--;
+               String fileNamePath = jpg_filenames_path[trackbar_value + 1];
+               String withoutExt = fileNamePath.substr(0, fileNamePath.find_last_of("."));
+               String extraSlash = "";
+               String directory = std::string(argv[1]);
+               String trainFile = std::string(argv[2]);
+
+               size_t pos = withoutExt.find('/', withoutExt.find('/') + 1);
+               if(pos != std::string::npos) { extraSlash = withoutExt.substr(0, pos + 1) + "/" + withoutExt.substr(pos + 1);
+                  extraSlash.append(".JPG");
+               }
+
+               std::cout << "\n" << withoutExt << "\n" << extraSlash << "\n" << trainFile << "\n " << directory << "\n";
+
+               fs::path imagePath = withoutExt + ".JPG";
+               fs::path textPath = withoutExt + ".txt";
+
+               std::ifstream train(trainFile);
+               if(!train.is_open())
+               {
+                  std::cerr << "Error opening file!";
+                  break;
+               }
+
+               std::vector<String> lines;
+               String line;
+               std::streampos lineStartPosition;
+               while(std::getline(train, line))
+               {
+                  lines.push_back(line);
+               }
+               train.close();
+
+               bool matchFound = false;
+               for (auto it = lines.begin(); it != lines.end(); ++it)
+               {
+                  if (*it == extraSlash)
+                  {
+                     lines.erase(it);
+                     matchFound = true;
+                     break;
+                  }
+               }
+
+               std::ofstream outFile(trainFile);
+               {
+                  if(!outFile.is_open())
+                  {
+                     std::cerr << "Unable to open file for writing!";
+                  }
+               }
+
+               for (const auto& line : lines)
+               {
+                  outFile << line << std::endl;
+               }
+               outFile.close();
+
+               if(fs::exists(imagePath) || fs::exists(textPath))
+               {
+                  fs::remove(imagePath);
+                  fs::remove(textPath);
+                  std::cout << "Deleted: " << textPath << " & " << imagePath << std::endl;
+               }
+               else
+               {
+                  std::cout << "Error: Files couldn't be deleted!";
+               }
+            }
+            else {
+               trackbar_value++;
+               String fileNamePath = jpg_filenames_path[trackbar_value - 1];
+               String withoutExt = fileNamePath.substr(0, fileNamePath.find_last_of("."));
+               String extraSlash = "";
+               String directory = std::string(argv[1]);
+               String trainFile = std::string(argv[2]);
+
+               size_t pos = withoutExt.find('/', withoutExt.find('/') + 1);
+               if(pos != std::string::npos) { extraSlash = withoutExt.substr(0, pos + 1) + "/" + withoutExt.substr(pos + 1); }
+
+               std::cout << "\n " << withoutExt << "\n" << extraSlash << "\n" << trainFile << "\n " << directory << "\n ";
+
+               fs::path imagePath = withoutExt + ".JPG";
+               fs::path textPath = withoutExt + ".txt";
+
+               std::ifstream train(trainFile);
+               if(!train.is_open())
+               {
+                  std::cerr << "Error opening file!";
+                  break;
+               }
+
+               std::vector<String> lines;
+               String line;
+               std::streampos lineStartPosition;
+               while(std::getline(train, line))
+               {
+                  lines.push_back(line);
+               }
+               train.close();
+
+               bool matchFound = false;
+               for (auto it = lines.begin(); it != lines.end(); ++it)
+               {
+                  if (*it == extraSlash)
+                  {
+                     lines.erase(it);
+                     matchFound = true;
+                     break;
+                  }
+               }
+
+               std::ofstream outFile(trainFile);
+               {
+                  if(!outFile.is_open())
+                  {
+                     std::cerr << "Unable to open file for writing!";
+                  }
+               }
+
+               for (const auto& line : lines)
+               {
+                  outFile << line << std::endl;
+               }
+               outFile.close();
+
+               if(fs::exists(imagePath) || fs::exists(textPath))
+               {
+                  fs::remove(imagePath);
+                  fs::remove(textPath);
+                  std::cout << "Deleted: " << textPath << " & \n" << imagePath << std::endl;
+               }
+               else
+               {
+                  std::cout << "Error: Files couldn't be deleted!";
+               }
+            }
+         }
+
 
 			if (old_current_obj_id != current_obj_id)
 			{
@@ -858,87 +1003,6 @@ int main(int argc, char *argv[])
             if (delete_selected) {
                 delete_selected = false;
                 if (selected_id >= 0) current_coord_vec.erase(current_coord_vec.begin() + selected_id);
-            }
-
-            if (delete_file)
-            {
-               clear_marks = true;
-               delete_file = false;
-               if(trackbar_value + 1 == jpg_filenames.size())
-               {
-                  trackbar_value--;
-                  String fileNamePath = jpg_filenames_path[trackbar_value + 1];
-                  String withoutExt = fileNamePath.substr(0, fileNamePath.find_last_of("."));
-                  String extraSlash = "";
-                  String directory = std::string(argv[1]);
-                  String trainFile = std::string(argv[2]);
-
-                  size_t pos = withoutExt.find('/', withoutExt.find('/') + 1);
-                  if(pos != std::string::npos) { extraSlash = withoutExt.substr(0, pos + 1) + "/" + withoutExt.substr(pos + 1);
-                     extraSlash.append(".JPG");
-                  }
-
-                  std::cout << "\n" << withoutExt << "\n" << extraSlash << "\n" << trainFile << "\n " << directory << "\n";
-
-                  fs::path imagePath = withoutExt + ".JPG";
-                  fs::path textPath = withoutExt + ".txt";
-
-                  std::ifstream train(trainFile);
-                  if(!train.is_open())
-                  {
-                     std::cerr << "Error opening file!";
-                  }
-
-                  String line;
-                  std::streampos lineStartPosition;
-                  while(std::getline(train, line))
-                  {
-                     lineStartPosition = train.tellg();
-
-                     if(!extraSlash.compare(line))
-                     {
-                        fs::remove(line);
-                     }
-                  }
-
-                  if(fs::exists(imagePath) || fs::exists(textPath))
-                  {
-                     fs::remove(imagePath);
-                     fs::remove(textPath);
-                     std::cout << "Deleted: " << textPath << " & " << imagePath << std::endl;
-                  }
-                  else
-                  {
-                     std::cout << "Error: Files couldn't be deleted!";
-                  }
-               }
-               else {
-                  trackbar_value++;
-                  String fileNamePath = jpg_filenames_path[trackbar_value - 1];
-                  String withoutExt = fileNamePath.substr(0, fileNamePath.find_last_of("."));
-                  String extraSlash = "";
-                  String directory = std::string(argv[1]);
-                  String trainFile = std::string(argv[2]);
-
-                  size_t pos = withoutExt.find('/', withoutExt.find('/') + 1);
-                  if(pos != std::string::npos) { extraSlash = withoutExt.substr(0, pos + 1) + "/" + withoutExt.substr(pos + 1); }
-
-                  std::cout << "\n " << withoutExt << "\n" << extraSlash << "\n" << trainFile << "\n " << directory << "\n ";
-
-                  fs::path imagePath = withoutExt + ".JPG";
-                  fs::path textPath = withoutExt + ".txt";
-
-                  if(fs::exists(imagePath) || fs::exists(textPath))
-                  {
-                     fs::remove(imagePath);
-                     fs::remove(textPath);
-                     std::cout << "Deleted: " << textPath << " & " << imagePath << std::endl;
-                  }
-                  else
-                  {
-                     std::cout << "Error: Files couldn't be deleted!";
-                  }
-               }
             }
 
             // show moving rect
@@ -1119,6 +1183,9 @@ int main(int argc, char *argv[])
 			break;
          case 'd':      // d
          case 1048676:  // d
+            //
+            // Need to remove the clear_marks part once get the text file part fixed
+            //
             delete_file = true;
             break;
          case 'h':		// h
