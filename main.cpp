@@ -813,7 +813,6 @@ int main(int argc, char *argv[])
 
          if (delete_file)
          {
-            clear_marks = true;
             delete_file = false;
             if(trackbar_value + 1 == jpg_filenames.size())
             {
@@ -1186,6 +1185,7 @@ int main(int argc, char *argv[])
             //
             // Need to remove the clear_marks part once get the text file part fixed
             //
+            clear_marks = true;
             delete_file = true;
             break;
          case 'h':		// h
