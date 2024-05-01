@@ -225,22 +225,26 @@ void callback_mouse_click(int event, int x, int y, int flags, void* user_data)
        //
        // Modify the x_size & y_size in here so that we get a minimum 10 pixels
        //
-        //x_size = abs(x - x_start);
-       if((x-x_start) < 10)
+        x_size = abs(x - x_start);
+       if(x_size < 10)
        {
           x_size = 10;
        }
+       /*
        else {
           x_size = x-x_start;
        }
-        //y_size = abs(y - y_start);
-        if((y-y_start) < 10)
+*/
+        y_size = abs(y - y_start);
+       if(y_size < 10)
         {
            y_size = 10;
         }
+        /*
         else {
            y_size = y-y_start;
         }
+*/
         x_end = max(x, 0);
         y_end = max(y, 0);
         draw_select = false;
