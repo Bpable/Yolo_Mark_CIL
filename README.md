@@ -4,11 +4,7 @@
     cmake .
     make
 
-Supported both: OpenCV 2.x and OpenCV 3.x
-
---------
-
-1. To test run the standard:
+1. To test run the standard line.
   * **on Linux:** `./linux_mark.sh`
 
 #### Updates from previous version
@@ -18,7 +14,9 @@ Supported both: OpenCV 2.x and OpenCV 3.x
 
 3. Some of the font has been adjusted so its easier to locate folders in the preview. Adjustments will be made in the future, but plan for all naming conventions to be within 13 characters.
 
-4. You can now delete images from yolo_mark itself. See below the keyboard shortcuts. **It may leave an after text file however this is zero bytes.** So when you are done labeling or checking your data. You can sort by size and delete all 0 byte files. This will be fixed in the near future.
+4. This has also been changed from c++11 to c++17. So ensure that those are installed on your computer.
+
+5. You can now delete images from yolo_mark itself. See below the keyboard shortcuts. **It may leave an after text file however this is zero bytes.** So when you are done labeling or checking your data. You can sort by size and delete all 0 byte files. This will be fixed in the near future.
 
 #### Keyboard Shortcuts
 
